@@ -4,7 +4,7 @@ import * as Icons from 'react-bootstrap-icons';
 
 import { validate, firebaseLooper, reverseArray } from '../../../../ui/misc';
 import FormField from '../../../../ui/formFields';
-import { firebaseDB, firebaseTraining } from '../../../../firebase';
+import {firebaseDB, firebaseTraining} from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
 class TrainingModal extends Component {
@@ -131,7 +131,7 @@ class TrainingModal extends Component {
 
 
         if (formIsValid) {
-            firebaseTraining.push(dataToSubmit).then((r) => {
+            firebaseDB.collection(firebaseTraining).add(dataToSubmit).then((r) => {
                 this.successForm('Training added successfuly !')
             }).catch((e) => {
                 console.log(e)
@@ -153,7 +153,9 @@ class TrainingModal extends Component {
         });
 
         setTimeout(() => {
-            window.location.reload();
+            this.setState({
+                formSuccess: ''
+            });
         }, 2000)
     }
 
@@ -165,7 +167,7 @@ class TrainingModal extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>{this.props.data.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -241,13 +243,15 @@ class Training extends Component {
     }
 
     componentDidMount() {
-        // firebaseTraining.once('value').then(snapshot => {
-        //     const training = firebaseLooper(snapshot);
-        //     this.setState({
-        //         isLoding: false,
-        //         training: reverseArray(training)
-        //     })
-        // })
+        firebaseDB.collection(firebaseTraining).get()
+            .then(snapshot => {
+
+            const training = firebaseLooper(snapshot);
+            this.setState({
+                isLoding: false,
+                training: reverseArray(training)
+            })
+        })
     }
 
 
@@ -255,7 +259,7 @@ class Training extends Component {
         this.setState({
             mShow: true,
             data: {
-                title: "Add New Education"
+                title: "Add Training"
             }
         })
     }
@@ -264,7 +268,7 @@ class Training extends Component {
         this.setState({
             mShow: true,
             data: {
-                title: "Edit Education",
+                title: "Edit Training",
                 id: id,
                 formType: 'edit'
             }
@@ -272,8 +276,9 @@ class Training extends Component {
     }
 
     removeEducation(id) {
-        firebaseDB.ref(`training/${id}`).remove();
-        window.location.reload();
+        firebaseDB.collection(firebaseTraining).doc(id).delete().then(() => {
+            window.location.reload();
+        });
     }
 
     render() {

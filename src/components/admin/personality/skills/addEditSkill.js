@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { validate } from '../../../../ui/misc';
 import FormField from '../../../../ui/formFields';
-import { firebaseDB, firebaseSkills } from '../../../../firebase';
+import {firebaseDB, firebaseSkills} from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
 class AddEditSkill extends Component {
@@ -38,7 +38,7 @@ class AddEditSkill extends Component {
                     type: 'number',
                     placeholder: 'Percentage',
                     label: 'Percentage',
-                    appendText: '%'
+                    appendtext: '%'
                 },
                 validation: {
                     required: true,
@@ -107,19 +107,21 @@ class AddEditSkill extends Component {
     }
 
     componentDidMount() {
-        // const expId = this.props.match.params.id;
-        //
-        //
-        // if (!expId) {
-        //     this.updateFields(false, 'Add Skill', expId)
-        // } else {
-        //     firebaseDB.ref(`skills/${expId}`).once('value')
-        //         .then((snapshot) => {
-        //             const exp = snapshot.val();
-        //
-        //             this.updateFields(exp, 'Edit Skill', expId)
-        //         })
-        // }
+        const expId = this.props.match.params.id;
+
+
+        if (!expId) {
+            this.updateFields(false, 'Add Skill', expId)
+        } else {
+            firebaseDB.collection(firebaseSkills)
+                .doc(expId)
+                .get()
+                .then((snapshot) => {
+                    const exp = snapshot.data();
+
+                    this.updateFields(exp, 'Edit Skill', expId)
+                })
+        }
     }
 
     submitForm(event) {
@@ -138,14 +140,14 @@ class AddEditSkill extends Component {
 
             if (formIsValid) {
                 if (this.state.formType === 'Edit Skill') {
-                    firebaseDB.ref(`skills/${this.state.id}`)
+                    firebaseDB.collection(firebaseSkills).doc(this.state.id)
                         .update(dataToSubmit).then(() => {
                             this.successForm('Updated correctly');
                         }).catch((e) => {
                             this.setState({ formError: true })
                         })
                 } else {
-                    firebaseSkills.push(dataToSubmit).then(() => {
+                    firebaseDB.collection(firebaseSkills).add(dataToSubmit).then(() => {
                         this.props.history.push('/admin/personality');
                     }).catch((e) => {
                         this.setState({ formError: true })

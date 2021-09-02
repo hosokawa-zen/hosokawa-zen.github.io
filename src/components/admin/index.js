@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
-import { firebaseDB } from '../../firebase';
+// import { firebaseDB } from '../../firebase';
 import * as Icons from 'react-bootstrap-icons'
 
 class Dashboard extends Component {

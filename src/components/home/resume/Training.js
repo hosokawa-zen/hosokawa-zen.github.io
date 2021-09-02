@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseTraining } from '../../../firebase';
+import {firebaseDB, firebaseTraining} from '../../../firebase';
 import { ResumeItem, firebaseLooper, reverseArray } from '../../../ui/misc';
 
 class Training extends Component {
@@ -9,12 +9,12 @@ class Training extends Component {
     }
 
     componentDidMount() {
-        // firebaseTraining.once('value').then(snapshot => {
-        //     const services = firebaseLooper(snapshot);
-        //     this.setState({
-        //         trainings: reverseArray(services)
-        //     })
-        // })
+        firebaseDB.collection(firebaseTraining).get().then(snapshot => {
+            const services = firebaseLooper(snapshot);
+            this.setState({
+                trainings: reverseArray(services)
+            })
+        })
     }
 
     showTrining = () => (

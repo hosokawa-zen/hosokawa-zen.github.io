@@ -120,56 +120,55 @@ class AddEditService extends Component {
     }
 
     componentDidMount() {
-        // const expId = this.props.match.params.id;
-        //
-        //
-        // if (!expId) {
-        //     this.updateFields(false, 'Add Service', expId)
-        // } else {
-        //     firebaseDB.ref(`services/${expId}`).once('value')
-        //         .then((snapshot) => {
-        //             const exp = snapshot.val();
-        //
-        //             this.updateFields(exp, 'Edit Service', expId)
-        //         })
-        // }
+        const expId = this.props.match.params.id;
+
+        if (!expId) {
+            this.updateFields(false, 'Add Service', expId)
+        } else {
+            firebaseDB.collection(firebaseServices).doc(expId).get()
+                .then((snapshot) => {
+                    const exp = snapshot.data();
+
+                    this.updateFields(exp, 'Edit Service', expId)
+                })
+        }
     }
 
     submitForm(event) {
-        // event.preventDefault();
-        // if (this.props.user.role !== 'admin') {
-        //     window.alert("Sorry you are not able to update")
-        // } else {
-        //     let dataToSubmit = {};
-        //     let formIsValid = true;
-        //
-        //     for (let key in this.state.formData) {
-        //         dataToSubmit[key] = this.state.formData[key].value;
-        //         formIsValid = this.state.formData[key].valid && formIsValid;
-        //     }
-        //
-        //
-        //     if (formIsValid) {
-        //         if (this.state.formType === 'Edit Service') {
-        //             firebaseDB.ref(`services/${this.state.id}`)
-        //                 .update(dataToSubmit).then(() => {
-        //                     this.successForm('Updated correctly');
-        //                 }).catch((e) => {
-        //                     this.setState({ formError: true })
-        //                 })
-        //         } else {
-        //             firebaseServices.push(dataToSubmit).then(() => {
-        //                 this.props.history.push('/admin/services');
-        //             }).catch((e) => {
-        //                 this.setState({ formError: true })
-        //             })
-        //         }
-        //     } else {
-        //         this.setState({
-        //             formError: true
-        //         })
-        //     }
-        // }
+        event.preventDefault();
+        if (this.props.user.role !== 'admin') {
+            window.alert("Sorry you are not able to update")
+        } else {
+            let dataToSubmit = {};
+            let formIsValid = true;
+
+            for (let key in this.state.formData) {
+                dataToSubmit[key] = this.state.formData[key].value;
+                formIsValid = this.state.formData[key].valid && formIsValid;
+            }
+
+
+            if (formIsValid) {
+                if (this.state.formType === 'Edit Service') {
+                    firebaseDB.collection(firebaseServices).doc(this.state.id)
+                        .update(dataToSubmit).then(() => {
+                            this.successForm('Updated correctly');
+                        }).catch((e) => {
+                            this.setState({ formError: true })
+                        })
+                } else {
+                    firebaseDB.collection(firebaseServices).add(dataToSubmit).then(() => {
+                        this.props.history.push('/admin/services');
+                    }).catch((e) => {
+                        this.setState({ formError: true })
+                    })
+                }
+            } else {
+                this.setState({
+                    formError: true
+                })
+            }
+        }
     }
 
     successForm(message) {

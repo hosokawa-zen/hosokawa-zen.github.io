@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseFacts } from '../../../firebase';
+import {firebaseDB, firebaseFacts} from '../../../firebase';
 import { Tag, firebaseLooper, reverseArray } from '../../../ui/misc';
 import FactCounder from './FactCounder';
 
@@ -11,12 +11,12 @@ class Facts extends Component {
     }
 
     componentDidMount() {
-        // firebaseFacts.once('value').then(snapshot => {
-        //     const facts = firebaseLooper(snapshot);
-        //     this.setState({
-        //         countDown: reverseArray(facts)
-        //     })
-        // })
+        firebaseDB.collection(firebaseFacts).get().then(snapshot => {
+            const facts = firebaseLooper(snapshot);
+            this.setState({
+                countDown: reverseArray(facts)
+            })
+        })
     }
 
     showCounter = () => (

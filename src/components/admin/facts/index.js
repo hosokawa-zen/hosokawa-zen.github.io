@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Card, Button, Table, Spinner } from 'react-bootstrap';
 import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import {firebaseDB, firebaseFacts, firebaseTestimonials} from '../../../firebase';
+import {firebaseDB, firebaseFacts} from '../../../firebase';
 import { firebaseLooper, reverseArray } from '../../../ui/misc';
 import { IconPickerItem } from 'react-fa-icon-picker';
 
 class Facts extends Component {
 
     state = {
-        isLoding: true,
+        isLoading: true,
         facts: []
     }
 
@@ -17,10 +17,10 @@ class Facts extends Component {
         firebaseDB.collection(firebaseFacts).get()
             .then(snapshot => {
 
-                const testimonials = firebaseLooper(snapshot);
+                const facts = firebaseLooper(snapshot);
                 this.setState({
-                    isLoding: false,
-                    testimonials: reverseArray(testimonials)
+                    isLoading: false,
+                    facts: reverseArray(facts)
                 })
             })
     }
@@ -77,7 +77,7 @@ class Facts extends Component {
                                 </tbody>
                             </Table>
                             <div className="text-center">
-                                {this.state.isLoding ?
+                                {this.state.isLoading ?
                                     <Spinner animation="border" variant="info" />
                                     : null}
                             </div>

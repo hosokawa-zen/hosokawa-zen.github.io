@@ -1,6 +1,6 @@
 import { Markup } from 'interweave';
 import React, { Component } from 'react';
-import { firebaseProfile, firebase } from '../../../firebase';
+import {firebaseProfile, firebase, firebaseDB} from '../../../firebase';
 import { Tag } from '../../../ui/misc';
 import AboutUs from './AboutUs';
 
@@ -13,27 +13,30 @@ class About extends Component {
     }
 
     componentDidMount() {
-        // firebaseProfile.once('value')
-        //     .then((snapshot) => {
-        //         const profile = snapshot.val();
-        //         const now = new Date();
-        //         const nYear = now.getFullYear();
-        //         const dob = new Date(profile.birthday);
-        //         const bYear = dob.getFullYear();
-        //         profile.dob = nYear - bYear;
-        //
-        //         firebase.storage().ref('profile')
-        //             .child(profile.featuredImage).getDownloadURL()
-        //             .then(url => {
-        //                 profile.featuredUrl = url;
-        //
-        //                 this.setState({
-        //                     profile: profile,
-        //                     basic_details: profile.basic_details,
-        //                     professional_details: profile.professional_details
-        //                 })
-        //             })
-        //     })
+        firebaseDB.collection(firebaseProfile).get()
+            .then((snapshot) => {
+                if(snapshot.docs.length){
+                    const profileDoc = snapshot.docs[0];
+                    const profile = profileDoc.data();
+                    const now = new Date();
+                    const nYear = now.getFullYear();
+                    const dob = new Date(profile.birthday);
+                    const bYear = dob.getFullYear();
+                    profile.dob = nYear - bYear;
+
+                    firebase.storage().ref('profile')
+                        .child(profile.featuredImage).getDownloadURL()
+                        .then(url => {
+                            profile.featuredUrl = url;
+
+                            this.setState({
+                                profile: profile,
+                                basic_details: profile.basic_details,
+                                professional_details: profile.professional_details
+                            })
+                        })
+                }
+            })
     }
 
     render() {

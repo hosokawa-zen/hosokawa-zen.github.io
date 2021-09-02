@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Table, Spinner } from 'react-bootstrap';
 import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import {firebaseDB, firebaseFacts, firebaseServices} from '../../../firebase';
+import {firebaseDB, firebaseServices} from '../../../firebase';
 import { firebaseLooper, reverseArray } from '../../../ui/misc';
 import { IconPickerItem } from 'react-fa-icon-picker';
 

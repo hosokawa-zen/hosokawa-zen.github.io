@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import Layout from '../../hoc/Layout'
+import Layout from '../../layout/Layout'
 
 const PrivateRoutes = ({ user, component: Comp, ...rest }) => {
     return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseEducation } from '../../../firebase';
+import {firebaseDB, firebaseEducation} from '../../../firebase';
 import { firebaseLooper, ResumeItem, reverseArray } from '../../../ui/misc';
 
 class Education extends Component {
@@ -9,12 +9,12 @@ class Education extends Component {
     }
 
     componentDidMount() {
-        // firebaseEducation.once('value').then(snapshot => {
-        //     const education = firebaseLooper(snapshot);
-        //     this.setState({
-        //         education: reverseArray(education)
-        //     })
-        // })
+        firebaseDB.collection(firebaseEducation).get().then(snapshot => {
+            const education = firebaseLooper(snapshot);
+            this.setState({
+                education: reverseArray(education)
+            })
+        })
     }
 
     showEducation = () => (

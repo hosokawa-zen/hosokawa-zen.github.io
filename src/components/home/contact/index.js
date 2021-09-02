@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseProfile } from '../../../firebase';
+import {firebaseDB, firebaseProfile} from '../../../firebase';
 import { ContactItem, Tag } from '../../../ui/misc';
 import ContactForm from './ContactForm';
 
@@ -12,16 +12,19 @@ class Contact extends Component {
     }
 
     componentDidMount() {
-        // firebaseProfile.once('value')
-        //     .then((snapshot) => {
-        //         const profile = snapshot.val();
-        //
-        //         this.setState({
-        //             email: profile.email,
-        //             mobile: profile.mobile,
-        //             address: profile.address
-        //         })
-        //     })
+        firebaseDB.collection(firebaseProfile).get()
+            .then((snapshot) => {
+                if(snapshot.docs.length){
+                    const profileDoc = snapshot.docs[0];
+                    const profile = profileDoc.data();
+
+                    this.setState({
+                        email: profile.email,
+                        mobile: profile.mobile,
+                        address: profile.address
+                    })
+                }
+            })
     }
 
     render() {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { validate } from '../../../../ui/misc';
 import FormField from '../../../../ui/formFields';
-import { firebaseDB } from '../../../../firebase';
+import {firebaseDB, firebaseTraining} from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
 class Edit extends Component {
@@ -78,13 +78,16 @@ class Edit extends Component {
     componentDidMount() {
         const eduId = this.props.match.params.id
         if ((eduId)) {
-            firebaseDB.ref(`training/${eduId}`).once('value')
-                .then(snapshot => {
+            firebaseDB.collection(firebaseTraining)
+                .doc(eduId)
+                .get()
+                .then((snapshot) => {
+                    const exp = snapshot.data();
+
                     const newFormData = { ...this.state.formData };
 
-                    const eduById = snapshot.val();
-                    for (let key in eduById) {
-                        newFormData[key].value = eduById[key]
+                    for (let key in exp) {
+                        newFormData[key].value = exp[key]
                         newFormData[key].valid = true
                     }
                     this.setState({
@@ -152,7 +155,7 @@ class Edit extends Component {
             }
 
             if (formIsValid) {
-                firebaseDB.ref(`training/${this.state.id}`)
+                firebaseDB.collection(firebaseTraining).doc(this.state.id)
                     .update(dataToSubmit).then(() => {
                         this.props.history.push('/admin/personality');
                     }).catch((e) => {

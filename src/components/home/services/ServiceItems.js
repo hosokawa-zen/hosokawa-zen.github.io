@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ServiceUI, firebaseLooper, reverseArray } from '../../../ui/misc';
-import { firebaseServices } from '../../../firebase';
+import {firebaseDB, firebaseServices} from '../../../firebase';
 
 class ServiceItems extends Component {
 
@@ -9,12 +9,12 @@ class ServiceItems extends Component {
     }
 
     componentDidMount() {
-        // firebaseServices.once('value').then(snapshot => {
-        //     const services = firebaseLooper(snapshot);
-        //     this.setState({
-        //         services: reverseArray(services)
-        //     })
-        // })
+        firebaseDB.collection(firebaseServices).get().then(snapshot => {
+            const services = firebaseLooper(snapshot);
+            this.setState({
+                services: reverseArray(services)
+            })
+        })
     }
 
     showServices = () => (

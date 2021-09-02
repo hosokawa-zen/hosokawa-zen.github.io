@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import Layout from '../../hoc/Layout'
+import Layout from '../../layout/Layout'
 
 const PublicRoutes = ({ user, component: Comp, ...rest }) => {
     return (

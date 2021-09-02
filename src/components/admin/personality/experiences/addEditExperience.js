@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { validate } from '../../../../ui/misc';
 import FormField from '../../../../ui/formFields';
-import { firebaseDB, firebaseExperience } from '../../../../firebase';
+import {firebaseDB, firebaseExperience} from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
 class AddEditExperience extends Component {
@@ -36,8 +36,8 @@ class AddEditExperience extends Component {
                 config: {
                     name: 'intitute',
                     type: 'text',
-                    placeholder: 'Intitute name',
-                    label: 'Intitute name'
+                    placeholder: 'Institute name',
+                    label: 'Institute name'
                 },
                 validation: {
                     required: true,
@@ -139,19 +139,21 @@ class AddEditExperience extends Component {
     }
 
     componentDidMount() {
-        // const expId = this.props.match.params.id;
-        //
-        //
-        // if (!expId) {
-        //     this.updateFields(false, 'Add Experiece', expId)
-        // } else {
-        //     firebaseDB.ref(`experience/${expId}`).once('value')
-        //         .then((snapshot) => {
-        //             const exp = snapshot.val();
-        //
-        //             this.updateFields(exp, 'Edit Experiece', expId)
-        //         })
-        // }
+        const expId = this.props.match.params.id;
+
+
+        if (!expId) {
+            this.updateFields(false, 'Add Experiece', expId)
+        } else {
+            firebaseDB.collection(firebaseExperience)
+                .doc(expId)
+                .get()
+                .then((snapshot) => {
+                    const exp = snapshot.data();
+
+                    this.updateFields(exp, 'Edit Experiece', expId)
+                })
+        }
     }
 
     submitForm(event) {
@@ -170,14 +172,14 @@ class AddEditExperience extends Component {
 
             if (formIsValid) {
                 if (this.state.formType === 'Edit Experiece') {
-                    firebaseDB.ref(`experience/${this.state.id}`)
+                    firebaseDB.collection(firebaseExperience).doc(this.state.id)
                         .update(dataToSubmit).then(() => {
                             this.successForm('Updated correctly');
                         }).catch((e) => {
                             this.setState({ formError: true })
                         })
                 } else {
-                    firebaseExperience.push(dataToSubmit).then(() => {
+                    firebaseDB.collection(firebaseExperience).add(dataToSubmit).then(() => {
                         this.props.history.push('/admin/personality');
                     }).catch((e) => {
                         this.setState({ formError: true })

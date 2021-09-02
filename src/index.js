@@ -4,11 +4,11 @@ import App from './App';
 import SimpleReactLightbox from 'simple-react-lightbox'
 
 ReactDOM.render(
-    <React.StrictMode>
+    <React.Fragment>
         <SimpleReactLightbox>
             <App/>
         </SimpleReactLightbox>
-    </React.StrictMode>,
+    </React.Fragment>,
     document.getElementById('root')
 );
 

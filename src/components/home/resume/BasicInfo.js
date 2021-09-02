@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseProfile } from '../../../firebase';
+import {firebaseDB, firebaseProfile} from '../../../firebase';
 
 import { ResumeItem } from '../../../ui/misc';
 
@@ -12,19 +12,22 @@ class BasicInfo extends Component {
     }
 
     componentDidMount() {
-        // firebaseProfile.once('value')
-        //     .then((snapshot) => {
-        //         const profile = snapshot.val();
-        //         const info = `<ul>
-        //             <li>${profile.address}</li>
-        //             <li><a href="tel:${profile.mobile}">${profile.mobile}</a></li>
-        //             <li><a href="mailto:${profile.email}">${profile.email}</a></li></ul>`
-        //         this.setState({
-        //             title: profile.name,
-        //             subtitle: profile.sumary,
-        //             list: info
-        //         })
-        //     })
+        firebaseDB.collection(firebaseProfile).get()
+            .then((snapshot) => {
+                if(snapshot.docs.length){
+                    const profileDoc = snapshot.docs[0];
+                    const profile = profileDoc.data();
+                    const info = `<ul>
+                        <li>${profile.address}</li>
+                        <li><a href="tel:${profile.mobile}">${profile.mobile}</a></li>
+                        <li><a href="mailto:${profile.email}">${profile.email}</a></li></ul>`
+                    this.setState({
+                        title: profile.name,
+                        subtitle: profile.sumary,
+                        list: info
+                    })
+                }
+            })
     }
 
     showInfo = () => (

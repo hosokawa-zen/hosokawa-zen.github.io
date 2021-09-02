@@ -5,7 +5,6 @@ import { validate } from '../../ui/misc';
 import {firebase, firebaseDB, firebaseUsers} from '../../firebase';
 
 import './auth.css'
-import SocialMediaSignin from './SocialMediaSignin';
 
 class SignInOrSignup extends Component {
     state = {

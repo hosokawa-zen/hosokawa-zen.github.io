@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseExperience } from '../../../firebase';
+import {firebaseDB, firebaseExperience} from '../../../firebase';
 import { ResumeItem, firebaseLooper, reverseArray } from '../../../ui/misc';
 
 class Experience extends Component {
@@ -9,12 +9,12 @@ class Experience extends Component {
     }
 
     componentDidMount() {
-        // firebaseExperience.once('value').then(snapshot => {
-        //     const services = firebaseLooper(snapshot);
-        //     this.setState({
-        //         experiences: reverseArray(services)
-        //     })
-        // })
+        firebaseDB.collection(firebaseExperience).get().then(snapshot => {
+            const services = firebaseLooper(snapshot);
+            this.setState({
+                experiences: reverseArray(services)
+            })
+        })
     }
 
     showExperiences = () => (

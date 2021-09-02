@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { validate } from '../../../ui/misc';
 import FormField from '../../../ui/formFields';
-import {firebaseDB, firebaseTestimonials, firebase, firebasePortfolios} from '../../../firebase';
+import {firebaseDB, firebaseTestimonials, firebase} from '../../../firebase';
 import { Link } from 'react-router-dom';
 import Fileuploader from '../../../ui/fileUploader';
 

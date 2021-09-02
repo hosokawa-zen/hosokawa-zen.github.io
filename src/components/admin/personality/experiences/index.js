@@ -3,7 +3,7 @@ import { Table, Spinner, Button } from 'react-bootstrap';
 import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
-import { firebaseExperience, firebaseDB } from '../../../../firebase';
+import {firebaseExperience, firebaseDB} from '../../../../firebase';
 import { firebaseLooper, reverseArray } from '../../../../ui/misc';
 
 class Experience extends Component {
@@ -14,18 +14,21 @@ class Experience extends Component {
     }
 
     componentDidMount() {
-        // firebaseExperience.once('value').then(snapshot => {
-        //     const experience = firebaseLooper(snapshot);
-        //     this.setState({
-        //         isLoding: false,
-        //         experience: reverseArray(experience)
-        //     })
-        // })
+        firebaseDB.collection(firebaseExperience).get()
+            .then(snapshot => {
+
+            const experience = firebaseLooper(snapshot);
+            this.setState({
+                isLoding: false,
+                experience: reverseArray(experience)
+            })
+        })
     }
 
     removeEducation(id) {
-        firebaseDB.ref(`experience/${id}`).remove();
-        window.location.reload();
+        firebaseDB.collection(firebaseExperience).doc(id).delete().then(() => {
+            window.location.reload();
+        });
     }
 
     render() {

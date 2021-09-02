@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { List, X } from 'react-bootstrap-icons';
 
 import Header from '../components/header_footer/Header';
-import Footer from '../components/header_footer/Footer';
+// import Footer from '../components/header_footer/Footer';
 
 const Layout = (props) => {
 
@@ -13,9 +13,13 @@ const Layout = (props) => {
             <div className="mobile-nav-toggle d-xl-none" onClick={() => { setMactive(!mActive) }}>
                 {mActive ? <X /> : <List />}
             </div>
-            <main>
+            <Header {...props}/>
+
+            <main id="main">
                 {props.children}
             </main>
+
+            {/*<Footer />*/}
         </div>
     );
 };

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import SocialProfile from '../../ui/social_icon';
 import Navbar from './navbar';
 
-import upworkIcon from '../../recourses/icon/upwork-Icon.png'
-import fiverrIcon from '../../recourses/icon/fiverr-icon.png'
+// import upworkIcon from '../../assets/icon/upwork-Icon.png'
+// import fiverrIcon from '../../assets/icon/fiverr-icon.png'
 
 class Header extends Component {
     render() {

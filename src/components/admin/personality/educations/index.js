@@ -4,7 +4,7 @@ import * as Icons from 'react-bootstrap-icons';
 
 import { validate, firebaseLooper, reverseArray } from '../../../../ui/misc';
 import FormField from '../../../../ui/formFields';
-import { firebaseEducation, firebaseDB } from '../../../../firebase';
+import {firebaseEducation, firebaseDB} from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
 class EduModal extends Component {
@@ -134,7 +134,7 @@ class EduModal extends Component {
 
 
             if (formIsValid) {
-                firebaseEducation.push(dataToSubmit).then((r) => {
+                firebaseDB.collection(firebaseEducation).add(dataToSubmit).then((r) => {
                     this.successForm('Education added successfuly !')
                 }).catch((e) => {
                     this.setState({ formError: true })
@@ -155,7 +155,9 @@ class EduModal extends Component {
         });
 
         setTimeout(() => {
-            window.location.reload();
+            this.setState({
+                formSuccess: ''
+            });
         }, 2000)
     }
 
@@ -167,7 +169,7 @@ class EduModal extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>{this.props.data.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -243,13 +245,15 @@ class Education extends Component {
     }
 
     componentDidMount() {
-        // firebaseEducation.once('value').then(snapshot => {
-        //     const education = firebaseLooper(snapshot);
-        //     this.setState({
-        //         isLoding: false,
-        //         education: reverseArray(education)
-        //     })
-        // })
+        firebaseDB.collection(firebaseEducation).get()
+            .then(snapshot => {
+
+            const education = firebaseLooper(snapshot);
+            this.setState({
+                isLoding: false,
+                education: reverseArray(education)
+            })
+        })
     }
 
 
@@ -274,8 +278,9 @@ class Education extends Component {
     }
 
     removeEducation(id) {
-        firebaseDB.ref(`education/${id}`).remove();
-        window.location.reload();
+        firebaseDB.collection(firebaseEducation).doc(id).delete().then(() => {
+            window.location.reload();
+        });
     }
 
     render() {

@@ -3,7 +3,7 @@ import { Table, Spinner, Button } from 'react-bootstrap';
 import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
-import { firebaseSkills, firebaseDB } from '../../../../firebase';
+import {firebaseSkills, firebaseDB} from '../../../../firebase';
 import { firebaseLooper, reverseArray } from '../../../../ui/misc';
 
 class Skills extends Component {
@@ -14,18 +14,21 @@ class Skills extends Component {
     }
 
     componentDidMount() {
-        // firebaseSkills.once('value').then(snapshot => {
-        //     const skills = firebaseLooper(snapshot);
-        //     this.setState({
-        //         isLoding: false,
-        //         skills: reverseArray(skills)
-        //     })
-        // })
+        firebaseDB.collection(firebaseSkills).get()
+            .then(snapshot => {
+
+            const skills = firebaseLooper(snapshot);
+            this.setState({
+                isLoding: false,
+                skills: reverseArray(skills)
+            })
+        })
     }
 
     removeEducation(id) {
-        firebaseDB.ref(`skills/${id}`).remove();
-        window.location.reload();
+        firebaseDB.collection(firebaseSkills).doc(id).delete().then(() => {
+            window.location.reload();
+        });
     }
 
     render() {

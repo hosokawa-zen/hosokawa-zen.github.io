@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import FullScreenLayout from "../../hoc/FullScreenLayout";
+import FullScreenLayout from "../../layout/FullScreenLayout";
 
 const PublicFullScreenRoutes = ({ user, component: Comp, ...rest }) => {
     return (

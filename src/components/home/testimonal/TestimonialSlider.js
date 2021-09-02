@@ -9,7 +9,7 @@ import "swiper/swiper.min.css";
 
 // Local file
 import SlideItem from './SlideItem';
-import { firebaseTestimonials, firebase } from '../../../firebase';
+import {firebaseTestimonials, firebase, firebaseDB} from '../../../firebase';
 import { firebaseLooper, reverseArray } from '../../../ui/misc';
 
 
@@ -23,23 +23,24 @@ class TestimonialSlider extends Component {
     }
 
     componentDidMount() {
-        // firebaseTestimonials.once('value').then(snapshot => {
-        //     const testimonials = firebaseLooper(snapshot);
-        //     const newTestmonial = reverseArray(testimonials)
-        //
-        //     for (let i = 0; i < newTestmonial.length; i++) {
-        //         firebase.storage().ref('testimonial')
-        //         .child(newTestmonial[i].image).getDownloadURL()
-        //         .then(url => {
-        //             newTestmonial[i].url = url;
-        //             this.setState({
-        //                 testimonials: newTestmonial
-        //             })
-        //         }).catch(e => {
-        //
-        //         })
-        //     }
-        // })
+        firebaseDB.collection(firebaseTestimonials).get()
+            .then(snapshot => {
+            const testimonials = firebaseLooper(snapshot);
+            const newTestmonial = reverseArray(testimonials)
+
+            for (let i = 0; i < newTestmonial.length; i++) {
+                firebase.storage().ref('testimonial')
+                .child(newTestmonial[i].image).getDownloadURL()
+                .then(url => {
+                    newTestmonial[i].url = url;
+                    this.setState({
+                        testimonials: newTestmonial
+                    })
+                }).catch(e => {
+
+                })
+            }
+        })
     }
 
     showSliders = () => (

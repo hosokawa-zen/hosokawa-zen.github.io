@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebasePortfolios, firebase } from '../../../firebase';
+import {firebasePortfolios, firebase, firebaseDB} from '../../../firebase';
 import { firebaseLooper, Tag } from '../../../ui/misc';
 import * as Icons from 'react-bootstrap-icons'
 import { Promise } from 'core-js';
@@ -18,39 +18,39 @@ class Portfolio extends Component {
     }
 
     componentDidMount() {
-        // firebasePortfolios.once('value').then(snapshot => {
-        //     const portfolio = firebaseLooper(snapshot);
-        //     let promises = [];
-        //     for (let key in portfolio) {
-        //         promises.push(
-        //             new Promise((resolve, reject) => {
-        //                 firebase.storage().ref('portfolios')
-        //                     .child(portfolio[key].thumb).getDownloadURL()
-        //                     .then(url => {
-        //                         portfolio[key].trumbUrl = url;
-        //                         resolve();
-        //                     })
-        //             })
-        //         )
-        //         promises.push(
-        //             new Promise((resolve, reject) => {
-        //                 firebase.storage().ref('portfolios')
-        //                     .child(portfolio[key].image).getDownloadURL()
-        //                     .then(url => {
-        //                         portfolio[key].imageUrl = url;
-        //                         resolve();
-        //                     })
-        //             })
-        //         )
-        //     }
-        //
-        //     Promise.all(promises).then(() => {
-        //         this.setState({
-        //             portfolios: portfolio,
-        //             filterPortfolios: portfolio
-        //         })
-        //     })
-        // })
+        firebaseDB.collection(firebasePortfolios).get().then(snapshot => {
+            const portfolio = firebaseLooper(snapshot);
+            let promises = [];
+            for (let key in portfolio) {
+                promises.push(
+                    new Promise((resolve, reject) => {
+                        firebase.storage().ref('portfolios')
+                            .child(portfolio[key].thumb).getDownloadURL()
+                            .then(url => {
+                                portfolio[key].trumbUrl = url;
+                                resolve();
+                            })
+                    })
+                )
+                promises.push(
+                    new Promise((resolve, reject) => {
+                        firebase.storage().ref('portfolios')
+                            .child(portfolio[key].image).getDownloadURL()
+                            .then(url => {
+                                portfolio[key].imageUrl = url;
+                                resolve();
+                            })
+                    })
+                )
+            }
+
+            Promise.all(promises).then(() => {
+                this.setState({
+                    portfolios: portfolio,
+                    filterPortfolios: portfolio
+                })
+            })
+        })
     }
 
     filterPortfolio = (filter) => {
