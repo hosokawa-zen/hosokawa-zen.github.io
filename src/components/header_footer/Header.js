@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import SocialProfile from '../../ui/social_icon';
+import SocialProfile from '../social_icon';
 import Navbar from './navbar';
 
 // import upworkIcon from '../../assets/icon/upwork-Icon.png'

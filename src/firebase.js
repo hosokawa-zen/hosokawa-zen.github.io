@@ -25,6 +25,7 @@ const firebaseSkills = 'skills';
 const firebaseServices = 'services';
 const firebaseFacts = 'facts';
 const firebaseTestimonials = 'testimonials';
+const firebasePortfolioCategories = 'portfolio_categories'
 const firebasePortfolios = 'portfolios';
 
 export {
@@ -39,5 +40,6 @@ export {
     firebaseServices,
     firebaseFacts,
     firebaseTestimonials,
+    firebasePortfolioCategories,
     firebasePortfolios
 }

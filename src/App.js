@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js//bootstrap.bundle'
 
 import { BrowserRouter } from 'react-router-dom';
-import Routes from './routes';
+import Index from './routes';
 import {firebase, firebaseDB, firebaseUsers} from "./firebase";
 import {useState} from "react";
 
-function App(props) {
+function App() {
     const [userInfo, setUserInfo] = useState(null);
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -31,7 +31,7 @@ function App(props) {
 
     return (
     <BrowserRouter>
-      <Routes user={userInfo} />
+      <Index user={userInfo} />
     </BrowserRouter>
   );
 }

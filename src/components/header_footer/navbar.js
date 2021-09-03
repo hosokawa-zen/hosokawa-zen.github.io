@@ -19,15 +19,15 @@ const Navbar = (props) => {
             auth: false
         },
         {
-            title: 'Resume',
-            url: 'resume',
-            icon: 'FileTextFill',
-            auth: false
-        },
-        {
             title: 'Portfolio',
             url: 'portfolio',
             icon: 'Book',
+            auth: false
+        },
+        {
+            title: 'Resume',
+            url: 'resume',
+            icon: 'FileTextFill',
             auth: false
         },
         {
@@ -63,6 +63,16 @@ const Navbar = (props) => {
             icon: 'Speedometer2'
         },
         {
+            title: 'Profile',
+            url: '/admin/profile',
+            icon: 'PersonBoundingBox'
+        },
+        {
+            title: 'Portfolio',
+            url: '/admin/portfolios',
+            icon: 'Book'
+        },
+        {
             title: 'Personality',
             url: '/admin/personality',
             icon: 'CodeSlash'
@@ -83,16 +93,6 @@ const Navbar = (props) => {
             icon: 'BarChart'
         },
         {
-            title: 'Portfolio',
-            url: '/admin/portfolios',
-            icon: 'Book'
-        },
-        {
-            title: 'Profile',
-            url: '/admin/profile',
-            icon: 'PersonBoundingBox'
-        },
-        {
             title: 'Logout',
             url: '/admin/logout',
             icon: 'BoxArrowLeft'
@@ -109,7 +109,7 @@ const Navbar = (props) => {
                         className="nav-link"
                         to={url}
                     >
-                        <Icon></Icon>
+                        <Icon/>
                         <span>{title}</span>
                     </LinkClickable.Link>
                     : null
@@ -118,7 +118,7 @@ const Navbar = (props) => {
                         className="nav-link"
                         to={url}
                     >
-                        <Icon></Icon>
+                        <Icon/>
                         <span>{title}</span>
                     </LinkClickable.Link>
                     : auth === false ?
@@ -130,7 +130,7 @@ const Navbar = (props) => {
                             smooth={true}
                             duration={500}
                         >
-                            <Icon></Icon>
+                            <Icon/>
                             <span>{title}</span>
                         </Link> : null}
             </li>
