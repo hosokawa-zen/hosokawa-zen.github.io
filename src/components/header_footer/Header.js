@@ -21,11 +21,11 @@ class Header extends Component {
                                 icon="github"
                             />
                             <SocialProfile
-                                linkTo="https://www.linkedin.com/in/forid-pathan/"
+                                linkTo="https://www.linkedin.com/in/zen-hosokawa-1a9193181"
                                 icon="linkedin"
                             />
                             <SocialProfile
-                                linkTo="https://www.linkedin.com/in/forid-pathan/"
+                                linkTo="https://join.skype.com/invite/jdRxtXdi10d9"
                                 icon="skype"
                             />
                             {/*<a href="https://www.fiverr.com/themexcoder" target="_blank" rel="noreferrer">*/}
